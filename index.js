@@ -16,12 +16,12 @@ mongoose.connection.on("error", (err) => {
 //import routes
 const productRouter = require("./routes/product.routes");
 //middlewares
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 //routes middlewares
 app.use("/products", productRouter);
+
 //server listening
 const port = process.env.PORT || 8000;
 app.listen(port, () => {
