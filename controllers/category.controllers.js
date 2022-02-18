@@ -4,6 +4,7 @@ const Category = require("../models/category.models")
 const createCategory = async (req, res) => {
     const newCategory = new Category({
         title: req.body.title,
+        description: req.body.description,
     })
     try {
         const savedCategory = await newCategory.save()

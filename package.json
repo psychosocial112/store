@@ -1,5 +1,5 @@
 {
-  "name": "store_tuto",
+  "name": "store",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,10 +10,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
     "gitignore": "^0.7.0",
-    "mongoose": "^6.2.1"
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.1",
+    "slug": "^5.2.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
