@@ -1,11 +1,15 @@
 import axios from "axios";
-import  { useState } from "react";
-import { useParams } from "react-router-dom";
 import { GET_PRODUCTS, GET_PRODUCT, PRODUCT_ERROR } from "../constants/actions";
 
-export const getProducts = () => async (dispatch) => {
+export const getProducts = (queries) => async (dispatch) => {
+	let queryString =""
+	for (const key in queries) {
+		queryString += "&" + key + "=" + queries[key]
+			
+		}
+	
 	try {
-		const res = await axios.get("/products");
+		const res = await axios.get(`/products?${queryString}`);
 		dispatch({
 			type: GET_PRODUCTS,
 			payload: res.data,

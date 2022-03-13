@@ -29,12 +29,12 @@ const Login = () => {
         <div>hello loading</div>
     ) : (
         <div className=" container mx-auto w-1/2">
-            <div className="flex flex-col justify-center items-center p-12  mt-20 bg-white rounded-3xl shadow-2xl gap-6 font-roboto ">
+            <div className="flex flex-col justify-center items-center p-12  mt-16 bg-white rounded-3xl shadow-2xl gap-6 font-roboto ">
                 <img className=" bg-purple-blue" src={logo} alt="logo" />
                 <h3>Personal Information</h3>
 
                 <form
-                    className="flex flex-col justify-center w-full gap-6 p- "
+                    className="flex flex-col justify-center w-full gap-6  "
                     onSubmit={(e) => onSubmitForm(e)}
                 >
                     <div className="flex flex-col w-2/3 mx-auto ">
@@ -73,7 +73,7 @@ const Login = () => {
                     >
                         Login
                     </button>
-                    <p>
+                    <p className="mx-auto">
                         Don't have an account?{" "}
                         <Link
                             className=" underline text-purple-blue"

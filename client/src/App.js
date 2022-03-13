@@ -7,8 +7,9 @@ import Footer from "./shared/Footer";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ProductDetail from "./pages/ProductDetails";
-import Search from "./pages/Search"
 import Search from "./pages/Search";
+import Cart from "./pages/Cart"
+
 function App() {
 	return (
 		<Provider store={store}>
@@ -22,6 +23,7 @@ function App() {
 							<Route path="/" element={<Home />}></Route>
 							<Route path="/products/:slug" element={<ProductDetail/>} ></Route>
 							<Route path="/search" element={<Search/>}></Route>
+							<Route path="/cart" element={<Cart/>}></Route>
 						</Routes>
 					</div>
 					<Footer/>

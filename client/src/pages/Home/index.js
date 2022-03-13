@@ -1,3 +1,4 @@
+
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../actions/product.actions";
@@ -8,7 +9,7 @@ const Home = () => {
     useEffect(() => {
         dispatch(getProducts());
     }, []);
-    const { isLoading, products } = useSelector((state) => {
+    const { products } = useSelector((state) => {
         return state.productReducers;
     });
     return (
