@@ -1,15 +1,23 @@
 import axios from "axios";
-import { GET_PRODUCTS, GET_PRODUCT, PRODUCT_ERROR } from "../constants/actions";
+import {
+	GET_PRODUCTS,
+	PRODUCT_ERROR,
+	GET_PRODUCT,
+	PRODUCT_LOADING,
+} from "../constants/actions";
 
 export const getProducts = (queries) => async (dispatch) => {
-	let queryString =""
+	dispatch({
+		type: PRODUCT_LOADING,
+	});
+	let queryString = "?";
+
 	for (const key in queries) {
-		queryString += "&" + key + "=" + queries[key]
-			
-		}
+		queryString += key + "=" + queries[key] + "&";
+	}
 	
 	try {
-		const res = await axios.get(`/products?${queryString}`);
+		const res = await axios.get(`/products${queryString}`);
 		dispatch({
 			type: GET_PRODUCTS,
 			payload: res.data,
@@ -23,6 +31,9 @@ export const getProducts = (queries) => async (dispatch) => {
 };
 
 export const getProduct = (slug) => async (dispatch) => {
+	dispatch({
+		type: PRODUCT_LOADING,
+	});
 	try {
 		const res = await axios.get(`/products/${slug}`);
 		dispatch({

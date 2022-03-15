@@ -1,9 +1,14 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 import { register } from "../../actions/auth.actions";
 import logo from "../../assets/images/main-logo.svg";
+import Spinner from "../../shared/Spinner";
 const Register = () => {
     const dispatch = useDispatch();
+    const { isLoading, isAuthenticated} = useSelector((state) => {
+        return state.authReducers
+    })
     const [Form, setForm] = useState({
         firstName: "",
         lastName: "",
@@ -35,7 +40,12 @@ const Register = () => {
             street: "",
         });
     };
-    return (
+    if (isAuthenticated) {
+		return <Navigate to={"/"} />;
+	}
+    return isLoading ? (
+        <Spinner/>
+    ) : (
         <div className=" container mx-auto w-2/3">
             <div className="flex flex-col justify-center items-center p-12 py-16  mt-16 bg-white rounded-3xl shadow-2xl gap-6 font-roboto ">
                 <img className=" bg-purple-blue" src={logo} alt="logo" />
@@ -51,11 +61,11 @@ const Register = () => {
                             </label>
                             
                                 <input
+                                    value={Form.firstName}
                                     required
                                     placeholder="First name"
-                                    onChange={(e) => onInputChange}
+                                    onChange={(e) => onInputChange(e)}
                                     type="text"
-                                    value={Form.firstName}
                                     name="firstName"
                                     id="firstName"
                                     className=" outline-none border-solid border rounded-2xl px-2 h-8 w-full "
@@ -70,7 +80,7 @@ const Register = () => {
                                 <input
                                     required
                                     placeholder="Last name"
-                                    onChange={(e) => onInputChange}
+                                    onChange={(e) => onInputChange(e)}
                                     type="text"
                                     value={Form.lastName}
                                     name="lastName"
@@ -86,9 +96,10 @@ const Register = () => {
                         </label>
                         
                             <input
+                                value={Form.email}
                                 required
                                 placeholder="Email address"
-                                onChange={(e) => onInputChange}
+                                onChange={(e) => onInputChange(e)}
                                 type="text"
                                 name="email"
                                 id="email"
@@ -105,7 +116,7 @@ const Register = () => {
                             <input
                                 required
                                 placeholder="Password"
-                                onChange={(e) => onInputChange}
+                                onChange={(e) => onInputChange(e)}
                                 type="password"
                                 name="password"
                                 id="password"
@@ -120,7 +131,7 @@ const Register = () => {
                             <input
                                 required
                                 placeholder="Confirm password"
-                                onChange={(e) => onInputChange}
+                                onChange={(e) => onInputChange(e)}
                                 type="Password"
                                 name="confirmPassword"
                                 id="confirmPassword"
@@ -137,7 +148,7 @@ const Register = () => {
                                 <input
                                     required
                                     placeholder="City"
-                                    onChange={(e) => onInputChange}
+                                    onChange={(e) => onInputChange(e)}
                                     type="text"
                                     name="city"
                                     id="city"
@@ -153,7 +164,7 @@ const Register = () => {
                                 <input
                                     required
                                     placeholder="Street"
-                                    onChange={(e) => onInputChange}
+                                    onChange={(e) => onInputChange(e)}
                                     type="text"
                                     name="street"
                                     id="street"
@@ -169,7 +180,7 @@ const Register = () => {
                                 <input
                                     required
                                     placeholder="ZIP/Postal code"
-                                    onChange={(e) => onInputChange}
+                                    onChange={(e) => onInputChange(e)}
                                     type="text"
                                     name="zipCode"
                                     id="zipCode"

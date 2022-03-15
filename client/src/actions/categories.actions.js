@@ -1,9 +1,15 @@
 import axios from "axios";
-import { GET_CATEGORIES, CATEGORY_ERROR } from "../constants/actions";
-
-export const getCATEGORIES = () => async (dispatch) => {
+import {
+	GET_CATEGORIES,
+	CATEGORY_ERROR,
+	CATEGORY_LOADING,
+} from "../constants/actions";
+export const getCategories = () => async (dispatch) => {
+	dispatch({
+		type: CATEGORY_LOADING,
+	});
 	try {
-		const res = await axios.get("/categories");
+		const res = await axios.get(`/categories`);
 		dispatch({
 			type: GET_CATEGORIES,
 			payload: res.data,

@@ -3,16 +3,19 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../../actions/product.actions";
 import { Link } from "react-router-dom";
+import Spinner from "../../shared/Spinner";
 const Home = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        dispatch(getProducts());
+        dispatch(getProducts( {limit: 12}));
     }, []);
-    const { products } = useSelector((state) => {
+    const { isLoading, products } = useSelector((state) => {
         return state.productReducers;
     });
-    return (
+    return isLoading ? (
+        <Spinner />
+    ) : (
         <div>
             <div className="">
                 <div className="max-w-2xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">

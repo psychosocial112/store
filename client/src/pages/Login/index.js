@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
 import { login } from "../../actions/auth.actions";
 import logo from "../../assets/images/main-logo.svg";
 import { Link } from "react-router-dom";
+import Spinner from "../../shared/Spinner";
 const Login = () => {
     const dispatch = useDispatch();
-    const { isLoading } = useSelector((state) => {
+    
+    const { isLoading, isAuthenticated } = useSelector((state) => {
         return state.authReducers;
     });
     const [Form, setForm] = useState({
@@ -25,8 +28,11 @@ const Login = () => {
             password: "",
         });
     };
+    if (isAuthenticated) {
+		return <Navigate to={"/"} />;
+	}
     return isLoading ? (
-        <div>hello loading</div>
+        <Spinner/>
     ) : (
         <div className=" container mx-auto w-1/2">
             <div className="flex flex-col justify-center items-center p-12  mt-16 bg-white rounded-3xl shadow-2xl gap-6 font-roboto ">

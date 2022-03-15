@@ -1,22 +1,23 @@
 import logo from "../../assets/images/main-logo.svg";
 import cart from "../../assets/images/Cart.svg";
 import search from "../../assets/images/search.svg";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import React, { useState } from "react";
 
-const Header = () => {  
-    const navigate = useNavigate();
-    
+const Header = () => {
+    const navigation = [{ name: "categories", to: "/categories" }];
     const [Query, setQuery] = useState("");
-    const onInputChange = (e) => {
-      e.preventDefault()
-      setQuery(e.target.value)
+    const navigate = useNavigate();
+    const location = useLocation();
+    function goToSearch(e) {
+        const queries = new URLSearchParams(location.search);
+        let queryString = "?";
+        for (const key of queries.keys()) {
+            queryString += key + "=" + queries.get(key) + "&";
+        }
+        navigate(`/search${queryString}q=${Query}`);
     }
-    const goSearch = (e) => {
-      
-      navigate(`/search?q=${Query}`)
-    } 
-  
+
     return (
         <div className="font-roboto">
             <header>
@@ -25,24 +26,28 @@ const Header = () => {
                     <div className="w-1/4 flex">
                         <input
                             value={Query}
-                            onChange ={e => onInputChange(e)}
+                            onChange={(e) => setQuery(e.target.value)}
                             placeholder="Search..."
                             className="w-full bg-white h-8 px-4 outline-none rounded-2xl"
                             type="text"
                         />
-                        <button 
-                        onClick={e => goSearch(e)}
-                        className="-ml-7 ">
+                        <button
+                            onClick={(e) => goToSearch(e)}
+                            className="-ml-7 "
+                        >
                             <img src={search} alt="" />
                         </button>
                     </div>
                     <div className="flex gap-10 text-white">
                         <Link to={"/"}>Home</Link>
-                        <button>Category</button>
+                        <Link to={"/categories"}>Category</Link>
                         <button>About us</button>
                         <button>Help</button>
                     </div>
-                    <Link to={"/cart"} className=" bg-white text-purple-blue px-3 py-1 rounded-2xl flex">
+                    <Link
+                        to={"/cart"}
+                        className=" bg-white text-purple-blue px-3 py-1 rounded-2xl flex"
+                    >
                         Cart{" "}
                         <span>
                             <img src={cart} alt="cart" />
