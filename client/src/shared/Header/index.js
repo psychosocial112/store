@@ -1,22 +1,44 @@
 import logo from "../../assets/images/main-logo.svg";
-import cart from "../../assets/images/Cart.svg";
 import search from "../../assets/images/search.svg";
-import { Link, useNavigate, useLocation } from "react-router-dom";
-import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate, useLocation } from "react-router-dom"; 
+import React, { useState, Fragment, useEffect } from "react";
+import { getOwnedCart } from "../../actions/cart.actions";
+import { logout } from "../../actions/auth.actions";
+
 
 const Header = () => {
-    const navigation = [{ name: "categories", to: "/categories" }];
     const [Query, setQuery] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
-    function goToSearch(e) {
-        const queries = new URLSearchParams(location.search);
-        let queryString = "?";
-        for (const key of queries.keys()) {
-            queryString += key + "=" + queries.get(key) + "&";
+    const { isAuthenticated } = useSelector((state) => state.authReducers);
+    const { items } = useSelector((state) => state.cartReducers);
+    const dispatch = useDispatch();
+    const goToSearch = (e) => {
+        let queryString = "";
+        const regex = /q=.*$/i;
+        if (location.search.search("q=") !== -1) {
+            queryString = location.search.replace(regex, `q=${Query}`);
+        } else {
+            queryString += location.search
+                ? location.search
+                : "?" + `&q=${Query}`;
         }
-        navigate(`/search${queryString}q=${Query}`);
-    }
+        navigate(`/search${queryString}`);
+    };
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            dispatch(getOwnedCart());
+        }
+    }, [isAuthenticated]);
+    const getNumberOfItems = (items) => {
+        let sum = 0;
+        items.forEach((element) => {
+            sum += element.quantity;
+        });
+        return sum;
+    };
 
     return (
         <div className="font-roboto">
@@ -44,21 +66,37 @@ const Header = () => {
                         <button>About us</button>
                         <button>Help</button>
                     </div>
-                    <Link
-                        to={"/cart"}
-                        className=" bg-white text-purple-blue px-3 py-1 rounded-2xl flex"
-                    >
-                        Cart{" "}
-                        <span>
-                            <img src={cart} alt="cart" />
-                        </span>
-                    </Link>
-                    <Link
-                        to={"/login"}
-                        className="bg-white text-purple-blue px-3 py-1 rounded-2xl"
-                    >
-                        Login/Sign up
-                    </Link>
+                    {isAuthenticated ? (
+                        <Fragment>
+                            <Link
+                                to={"/cart"}
+                                className=" bg-white text-purple-blue px-3 py-1 rounded-2xl flex relative"
+                            >
+                                Cart{" "}
+                                <span>
+                                    <i className="fas fa-shopping-cart"></i>
+                                </span>
+                                <span className="bg-red-200 rounded-full font-bold px-1.5 py-0.5 right-0 absolute text-xs">
+                                    {items ? getNumberOfItems(items) : 0}
+                                </span>
+                            </Link>
+                            <button
+                                onClick={() => dispatch(logout())}
+                                className="bg-white text-purple-blue px-3 py-1 rounded-2xl"
+                            >
+                                logout
+                            </button>
+                        </Fragment>
+                    ) : (
+                        <Fragment>
+                            <Link
+                                to={"/login"}
+                                className="bg-white text-purple-blue px-3 py-1 rounded-2xl"
+                            >
+                                Login/Sign up
+                            </Link>
+                        </Fragment>
+                    )}
                 </nav>
             </header>
         </div>
