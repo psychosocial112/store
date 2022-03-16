@@ -19,34 +19,35 @@ const Cart = () => {
     ) : (
         <div>
             <div>
-                {items.map((product) => (
-                    <div
-                        key={product.product._id}
-                        className="flex items-center bg-white rounded-3xl shadow-2xl h-40 w-1/2 mt-5 ml-5 gap-6"
-                    >
-                        <img
-                            className="w-1/6 h-32 ml-5 rounded-lg object-contain "
-                            src={product.product.image}
-                            alt=""
-                        />
-
-                        <Link to={`/products/${product.product.slug}`}>
-                            <h3>{product.product.title}</h3>
-                        </Link>
-
-                        <div className="flex items-center ">
-                            <button className="bg-purple-blue rounded-full h-4 w-4 ">
-                                -
-                            </button>
-                            <input
-                                className="w-16 appearance-none mx-3 outline-none border-solid border rounded-2xl px-2"
-                                type="number"
+                {items.length > 0 &&
+                    items.map((product) => (
+                        <div
+                            key={product.product._id}
+                            className="flex items-center bg-white rounded-3xl shadow-2xl h-40 w-1/2 mt-5 ml-5 gap-6"
+                        >
+                            <img
+                                className="w-1/6 h-32 ml-5 rounded-lg object-contain "
+                                src={product.product.image}
+                                alt=""
                             />
-                            <button>+</button>
+
+                            <Link to={`/products/${product.product.slug}`}>
+                                <h3>{product.product.title}</h3>
+                            </Link>
+
+                            <div className="flex items-center ">
+                                <button className="bg-purple-blue rounded-full h-4 w-4 ">
+                                    -
+                                </button>
+                                <input
+                                    className="w-16 appearance-none mx-3 outline-none border-solid border rounded-2xl px-2"
+                                    type="number"
+                                />
+                                <button>+</button>
+                            </div>
+                            <p>{product.price} $</p>
                         </div>
-                        <p>{product.price} $</p>
-                    </div>
-                ))}
+                    ))}
             </div>
             <div>
                 <h2>Checkout </h2>

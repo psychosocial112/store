@@ -22,9 +22,13 @@ const Home = () => {
                     <h2 className="text-xl font-bold">Customers also bought</h2>
 
                     <div className="mt-8 grid grid-cols-1 gap-y-12 sm:grid-cols-2 sm:gap-x-6 lg:grid-cols-3 xl:gap-x-8">
-                        {products.map((product) => (
-                            <ProductItem key={product._id} product={product} />
-                        ))}
+                        {products.length > 0 &&
+                            products.map((product) => (
+                                <ProductItem
+                                    key={product._id}
+                                    product={product}
+                                />
+                            ))}
                     </div>
                 </div>
             </div>
